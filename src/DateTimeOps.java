@@ -19,6 +19,7 @@ public class DateTimeOps {
         duration();
         conversions();
         dateTimeFormatting();
+        adjustments();
     }
 
     private static void localDate() {
@@ -192,7 +193,7 @@ public class DateTimeOps {
         final String styleThree = ldt.format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
         final String styleFour = ldt.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT));
         final String styleFive = ldt.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM));
-        final String styleSix = ldt.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM).withLocale(Locale.CANADA));
+        final String styleSix = ldt.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM).withLocale(Locale.getDefault()));
 
         System.out.println(styleOne);
         System.out.println(styleTwo);
@@ -200,6 +201,29 @@ public class DateTimeOps {
         System.out.println(styleFour);
         System.out.println(styleFive);
         System.out.println(styleSix);
+    }
+
+    private static void adjustments() {
+        System.out.println();
+        System.out.println();
+
+        System.out.println("Start of Day: " + LocalDateTime.of(LocalDate.now(), LocalTime.MIN).toInstant(ZoneOffset.UTC));
+        System.out.println("End of Day: " + LocalDateTime.of(LocalDate.now(), LocalTime.MAX).toInstant(ZoneOffset.UTC));
+
+        System.out.println();
+
+        System.out.println("Start of Week: " + LocalDateTime.of(LocalDate.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY)), LocalTime.MIN).toInstant(ZoneOffset.UTC));
+        System.out.println("End of Week: " + LocalDateTime.of(LocalDate.now().with(TemporalAdjusters.nextOrSame(DayOfWeek.SATURDAY)), LocalTime.MAX).toInstant(ZoneOffset.UTC));
+
+        System.out.println();
+
+        System.out.println("Start of Month: " + LocalDateTime.of(LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()), LocalTime.MIN).toInstant(ZoneOffset.UTC));
+        System.out.println("End of Month: " + LocalDateTime.of(LocalDate.now().with(TemporalAdjusters.lastDayOfMonth()), LocalTime.MAX).toInstant(ZoneOffset.UTC));
+
+        System.out.println();
+
+        System.out.println("Start of Year: " + LocalDateTime.of(LocalDate.now().with(TemporalAdjusters.firstDayOfYear()), LocalTime.MIN).toInstant(ZoneOffset.UTC));
+        System.out.println("End of Year: " + LocalDateTime.of(LocalDate.now().with(TemporalAdjusters.lastDayOfYear()), LocalTime.MAX).toInstant(ZoneOffset.UTC));
     }
 
 }
